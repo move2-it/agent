@@ -15,12 +15,12 @@ go version
 If using Windows system and the command isn't available, add bin folder to Enviroment Variable from the install folder with Go
 
 ### Configure Project
-Edit environment variable for changing how Go imports packages.
+Edit environment variable for changing how Go imports packages
 ```sh
 go env -w GO111MODULE=on
 ```
 
-Configure packages
+Configure packages, go to the /agent/src folder and run the commands
 ```sh
 go mod init move2.it/agent
 go mod tidy
