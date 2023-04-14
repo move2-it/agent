@@ -2,9 +2,9 @@ package it.move2.agent.adapters.http
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class JobOffer(
+data class JustJoinITJobOffer(
     val title: String,
-    val street: String,
+    val street: String?,
     val city: String,
     @JsonProperty("country_code")
     val countryCode: String?,
@@ -62,6 +62,6 @@ data class Skill(
 
 data class Multilocation(
     val city: String,
-    val street: String,
+    val street: String?,
     val slug: String,
 )
