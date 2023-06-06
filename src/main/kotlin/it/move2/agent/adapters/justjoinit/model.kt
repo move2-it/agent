@@ -1,8 +1,8 @@
-package it.move2.agent.adapters.http
+package it.move2.agent.adapters.justjoinit
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class JustJoinITJobOffer(
+data class JustJointITResponse(
     val title: String,
     val street: String?,
     val city: String,

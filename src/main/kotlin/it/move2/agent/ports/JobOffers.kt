@@ -1,7 +1,7 @@
 package it.move2.agent.ports
 
-import it.move2.agent.model.JobOffer
+import it.move2.agent.domain.JobOffer
 
-interface JobOffers {
+interface JobBoards {
     fun getJobs(): List<JobOffer>
 }
