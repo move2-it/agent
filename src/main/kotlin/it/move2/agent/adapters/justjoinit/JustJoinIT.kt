@@ -2,24 +2,24 @@ package it.move2.agent.adapters.justjoinit
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import it.move2.agent.configuration.AdapterConfiguration
+import it.move2.agent.configuration.APIConfiguration
 import it.move2.agent.domain.EmploymentType
 import it.move2.agent.domain.JobOffer
 import it.move2.agent.domain.Salary
 import it.move2.agent.domain.Skill
-import it.move2.agent.ports.JobBoards
+import it.move2.agent.ports.JobBoard
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 class JustJoinIT(
-    private val client: OkHttpClient, private val mapper: ObjectMapper, private val configuration: AdapterConfiguration
-) : JobBoards {
+    private val client: OkHttpClient, private val mapper: ObjectMapper, private val configuration: APIConfiguration
+) : JobBoard {
 
     override fun getJobs(): List<JobOffer> {
         val request = Request.Builder().url(configuration.path).build()
         val response = client.newCall(request).execute()
         val jobOffers: List<JustJointITResponse> = mapper.readValue(response.body?.string()!!)
-        return jobOffers.map { it.toModel() }
+        return jobOffers.distinctBy { listOf(it.title, it.companyName, it.experienceLevel, it.skills, it.employmentTypes, it.remote) }.map { it.toModel() }
     }
 
     private fun JustJointITResponse.toModel(): JobOffer = JobOffer(
