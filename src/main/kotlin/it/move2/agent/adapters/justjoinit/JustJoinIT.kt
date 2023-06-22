@@ -2,17 +2,18 @@ package it.move2.agent.adapters.justjoinit
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import it.move2.agent.configuration.APIConfiguration
-import it.move2.job.JobOffer
-import it.move2.job.Skill
-import it.move2.job.EmploymentType
-import it.move2.job.Salary
 import it.move2.agent.ports.JobBoard
+import it.move2.job.EmploymentType
+import it.move2.job.JobOffer
+import it.move2.job.Salary
+import it.move2.job.Skill
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+data class JustJointITConfiguration(val path: String)
+
 class JustJoinIT(
-    private val client: OkHttpClient, private val mapper: ObjectMapper, private val configuration: APIConfiguration
+    private val configuration: JustJointITConfiguration, private val client: OkHttpClient, private val mapper: ObjectMapper
 ) : JobBoard {
 
     override fun getJobs(): List<JobOffer> {
