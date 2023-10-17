@@ -31,7 +31,7 @@ jobs:
         id: set_image_name
         run: echo "IMAGE_NAME=mateuszjanczak/agent:$(date +%s)" >> $GITHUB_OUTPUT
       - name: Build image
-        run: docker build . --file Dockerfile --tag ${{ steps.set_image_name.outputs.IMAGE_NAME }} --tag latest
+        run: docker build . --file Dockerfile --tag ${{ steps.set_image_name.outputs.IMAGE_NAME }} --tag mateuszjanczak/agent:latest
       - name: Push image
         run: docker image push --all-tags mateuszjanczak/agent
       - name: Deploy image
