@@ -19,7 +19,7 @@ jobs:
   build_and_deploy:
     needs: build_and_test
     runs-on: ubuntu-latest
-#    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
       - name: Login
@@ -31,6 +31,10 @@ jobs:
         id: set_image_name
         run: echo "IMAGE_NAME=mateuszjanczak/agent:$(date +%s)" >> $GITHUB_OUTPUT
       - name: Build image
-        run: docker build . --file Dockerfile --tag ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+        run: docker build . --file Dockerfile --tag ${{ steps.set_image_name.outputs.IMAGE_NAME }} --tag latest
       - name: Push image
-        run: docker push ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+        run: docker image push --all-tags mateuszjanczak/agent
+      - name: Deploy image
+        env:
+          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: curl --write-out '%{http_code}' --silent --output /dev/null $DEPLOY_URL
