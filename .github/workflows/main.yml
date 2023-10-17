@@ -22,14 +22,15 @@ jobs:
 #    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      - name: Docker login
+      - name: Login
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: Build the Docker image
-        run: | 
-          IMAGE_NAME=mateuszjanczak/agent:$(date +%s)
-          docker build . --file Dockerfile --tag $IMAGE_NAME
-      - name: Push the Docker image
-        run: docker push $IMAGE_NAME
+      - name: Set image name
+        id: set_image_name
+        run: echo "IMAGE_NAME=mateuszjanczak/agent:$(date +%s)" >> $GITHUB_OUTPUT
+      - name: Build image
+        run: docker build . --file Dockerfile --tag ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+      - name: Push image
+        run: docker push ${{ steps.set_image_name.outputs.IMAGE_NAME }}
