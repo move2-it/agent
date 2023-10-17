@@ -9,7 +9,6 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -21,3 +20,11 @@ jobs:
         run: mvn clean package -DskipTests
       - name: Run tests
         run: mvn clean verify
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
