@@ -28,6 +28,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag mateuszjanczak/agent:$(date +%s)
+        run: | 
+          IMAGE_NAME=mateuszjanczak/agent:$(date +%s)
+          docker build . --file Dockerfile --tag $IMAGE_NAME
       - name: Push the Docker image
-        run: docker push mateuszjanczak/agent
+        run: docker push $IMAGE_NAME
